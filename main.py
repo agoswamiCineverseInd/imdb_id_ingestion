@@ -46,9 +46,9 @@ def run_ingestion():
 
         checkpoint = get_checkpoint(db_pool)
 
-        start_year = checkpoint.get("year", 2000)
+        start_year = checkpoint.get("year", 1975)
         last_imdb = checkpoint.get("imdb_id", "")
-        current_year = datetime.now().year
+        current_year = 2000
 
         ingest(start_year, current_year, last_imdb, db_pool)
 
