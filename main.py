@@ -7,7 +7,7 @@ import os
 
 from sparql import ingest_imdbIds_by_year
 from logger import send_log_async, service_wake_up
-from db import get_checkpoint
+from db import get_checkpoint, update_checkpoint
 from psycopg2 import pool
 
 app = FastAPI()
@@ -46,9 +46,9 @@ def run_ingestion():
 
         checkpoint = get_checkpoint(db_pool)
 
-        start_year = checkpoint.get("year", 1975)
+        start_year = checkpoint.get("year", 2000)
         last_imdb = checkpoint.get("imdb_id", "")
-        current_year = 2000
+        current_year = datetime.now().year
 
         ingest(start_year, current_year, last_imdb, db_pool)
 
@@ -61,10 +61,11 @@ def run_ingestion():
 
 def ingest(start_year, current_year, last_imdb, db_pool):
     year = start_year
+    imdb = last_imdb
 
     while year <= current_year:
         try:
-            ingest_imdbIds_by_year(year, last_imdb, db_pool)
+            ingest_imdbIds_by_year(year, imdb, db_pool)
 
             send_log_async(
                 "info",
@@ -80,5 +81,7 @@ def ingest(start_year, current_year, last_imdb, db_pool):
                 year,
                 str(e)
             )
-
-        year += 1
+        finally:
+            year+=1
+            imdb=""
+            update_checkpoint(imdb,year,db_pool)
