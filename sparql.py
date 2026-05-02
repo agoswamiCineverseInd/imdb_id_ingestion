@@ -40,7 +40,7 @@ def ingest_imdbIds_by_year(year,last_db_imdb,conn_pool):
               {"FILTER(?imdbId > \"" + last_imdb + "\")" if last_imdb else ""}
             }}
             ORDER BY ?imdbId
-            LIMIT 100
+            LIMIT 500
             """
                sparql.setQuery(query)
                sparql.setReturnFormat(JSON)
