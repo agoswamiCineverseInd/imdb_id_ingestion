@@ -55,7 +55,7 @@ def ingest_imdbIds_by_year(year,last_db_imdb,conn_pool):
                # something
                send_log_async("error","sparql.py -> ingest_imdbIds_by_yearet_count()",year,str(e))
           finally:
-               count-=100
+               count-=500
                send_log_async("info","sparql.py -> ingest_imdbIds_by_yearet_count()",year,f"documents left to insert {count}")
                if count<=0:
                     break
