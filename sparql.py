@@ -9,8 +9,7 @@ def get_count(year):
      count = 0
      try:
           count_query = f"""SELECT (COUNT(?imdbId) AS ?count) WHERE {{?movie wdt:P31 wd:Q11424;wdt:P577 ?releaseDate; wdt:P345 ?imdbId.                     VALUES ?type {{
-                          wd:Q11424       
-                          wd:Q5398426     
+                          wd:Q11424  
                           }}FILTER(YEAR(?releaseDate) = {year})}}"""
           sparql.setQuery(count_query)
           sparql.setReturnFormat(JSON)
