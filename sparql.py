@@ -32,8 +32,7 @@ def ingest_imdbIds_by_year(year,last_db_imdb,conn_pool):
                      wdt:P577 ?releaseDate;
                      wdt:P345 ?imdbId.
                      VALUES ?type {{
-                          wd:Q11424       
-                          wd:Q5398426     
+                          wd:Q11424    
                           }}
 
               FILTER(YEAR(?releaseDate) = {year})
